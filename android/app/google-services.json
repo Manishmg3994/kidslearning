@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "180717943773",
+    "project_id": "kidslearning3994",
+    "storage_bucket": "kidslearning3994.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:180717943773:android:048bbc41b3a68cf7d71434",
+        "android_client_info": {
+          "package_name": "com.antinna.kidslearning"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "180717943773-gk0ajb4aufd6iqa7gaslh1gc9gbtlao6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC34GvuiTRJJbQWP4Yl6lghi1_y5rz9yng"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "180717943773-gk0ajb4aufd6iqa7gaslh1gc9gbtlao6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "180717943773-5603cepqhg5eisavjqmhgam92d199lq0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.antinna.kidslearning"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
