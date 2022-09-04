@@ -16,8 +16,6 @@ import '../../explore/view/explorevideos_view.dart';
 import '../model/category_model.dart';
 import '../service/selectedgrade.dart';
 
-part '/app/features/home/view/components/drawer.dart';
-
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
 
@@ -32,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
   static GradeSelected get grade => ServiceLocator.get<GradeSelected>();
 
   int selectedService = -1; //TODO Grade
-  final queryPost = FirebaseFirestore.instance
+  Query<Service>? queryPost = FirebaseFirestore.instance
       .collection('category')
       .orderBy('indx')
       .where("grade",
@@ -139,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ).paddingSymmetric(horizontal: 16),
         ],
       ),
-      drawer: _Drawer(),
+      // drawer: Drawer(),
       floatingActionButton: selectedService >= 0
           ? FloatingActionButton(
               onPressed: () {
@@ -156,7 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
             )
           : null,
       body: FirestoreQueryBuilder<Service>(
-        query: queryPost,
+        query: queryPost!,
         builder: (context, snapshot, child) {
           if (snapshot.isFetching) {
             return Center(
@@ -241,9 +239,19 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void onSelectedGrade(BuildContext context, dynamic item) {
+    grade.saveGrade(item.toString());
     setState(() {
       //NOT CHECKED
-      grade.saveGrade(item.toString());
+      build(context);
+      queryPost = FirebaseFirestore.instance
+          .collection('category')
+          .orderBy('indx')
+          .where("grade",
+              arrayContainsAny: ["${item.toString()}"]).withConverter<Service>(
+        fromFirestore: ((snapshot, options) =>
+            Service.fromJson(snapshot.data()!)),
+        toFirestore: (category, _) => category.toJson(),
+      );
     });
   }
 }

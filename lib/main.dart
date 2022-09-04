@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-
+import 'package:kidslearning/core/config/routes/app_pages.dart';
 import 'app/features/selectegrade/view/selectgrade_view.dart';
 import 'core/config/theme/app_basic_theme.dart';
 import 'core/config/theme/helper/themeviewmodel.dart';
@@ -75,6 +75,7 @@ class _MyAppState extends State<MyApp> {
           const ResponsiveBreakpoint.resize(1000, name: DESKTOP),
         ],
       ),
+      getPages: AppPages.routes,
       home: SelectGrade(),
 
       // localizationsDelegates: [ // TODO add yourselef if you can or leave it

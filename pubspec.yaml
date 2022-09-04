@@ -77,8 +77,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  assets:
-    - assets/
+  # assets:
+  #   - assets/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -106,3 +106,21 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+  assets:
+    - assets/img/
+  
+
+  
+  fonts:
+    - family: Montserrat
+      fonts:
+        - asset: assets/fonts/Montserrat/Montserrat-Bold.ttf
+        - asset: assets/fonts/Montserrat/Montserrat-Regular.ttf
+          weight: 700
+       
+    - family: DynaPuff
+      fonts:
+        - asset: assets/fonts/DynaPuff/DynaPuff-Regular.ttf
+        - asset: assets/fonts/DynaPuff/DynaPuff-Bold.ttf
+          weight: 700
+  
