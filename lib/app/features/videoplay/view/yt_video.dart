@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoYT extends StatefulWidget {
@@ -44,6 +45,7 @@ class _VideoYTState extends State<VideoYT> {
 
   @override
   void dispose() {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     _controller.dispose();
     super.dispose();
   }
@@ -67,6 +69,8 @@ class _VideoYTState extends State<VideoYT> {
               });
             }),
             onEnded: ((metaData) {
+              SystemChrome.setPreferredOrientations(
+                  [DeviceOrientation.portraitUp]);
               Navigator.pop(context); //or until if deeplink
             }),
           ),

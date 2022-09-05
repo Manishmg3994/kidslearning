@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:get/get.dart';
 
@@ -19,6 +20,8 @@ class ExploreVideos extends StatefulWidget {
 class _ExploreVideosState extends State<ExploreVideos> {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     final queryPost = FirebaseFirestore.instance
         .collection(widget.categoryName.toString())
         .orderBy('indx')

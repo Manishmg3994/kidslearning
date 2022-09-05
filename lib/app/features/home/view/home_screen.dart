@@ -3,8 +3,10 @@ library home_view;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:get/get.dart';
+import 'package:kidslearning/app/features/home/model/globalgrade_modell.dart';
 
 import '../../../../core/colors.dart';
 import '../../../../core/common_text.dart';
@@ -41,6 +43,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
     return Scaffold(
       backgroundColor: isDark ? AppColorsDark.bgColor : AppColors.bgColor,
       appBar: AppBar(
@@ -67,61 +71,78 @@ class _HomeScreenState extends State<HomeScreen> {
                 //better be dropdown
                 position: PopupMenuPosition.over,
                 onSelected: (value) => onSelectedGrade(context, value),
-                itemBuilder: (context) => const [
-                  PopupMenuItem<String>(
-                    padding: EdgeInsets.only(left: 16.0),
-                    value: "0", //todo change
-                    child: Text('${AppTexts.grade} LKG'),
-                  ),
-                  PopupMenuItem<String>(
-                    padding: EdgeInsets.only(left: 16.0),
-                    value: "1",
-                    child: Text('${AppTexts.grade} 1'),
-                  ),
-                  PopupMenuDivider(),
-                  PopupMenuItem<String>(
-                    padding: EdgeInsets.only(left: 16.0),
-                    value: "2",
-                    child: Text('${AppTexts.grade} 2'),
-                  ),
-                  PopupMenuDivider(),
-                  PopupMenuItem<String>(
-                    padding: EdgeInsets.only(left: 16.0),
-                    value: "3",
-                    child: Text('${AppTexts.grade} 3'),
-                  ),
-                  PopupMenuDivider(),
-                  PopupMenuItem<String>(
-                    padding: EdgeInsets.only(left: 16.0),
-                    value: "4",
-                    child: Text('${AppTexts.grade} 4'),
-                  ),
-                  PopupMenuDivider(),
-                  PopupMenuItem<String>(
-                    padding: EdgeInsets.only(left: 16.0),
-                    value: "5",
-                    child: Text('${AppTexts.grade} 5'),
-                  ),
-                  PopupMenuDivider(),
-                  PopupMenuItem<String>(
-                    padding: EdgeInsets.only(left: 16.0),
-                    value: "6",
-                    child: Text('${AppTexts.grade} 6'),
-                  ),
-                  PopupMenuDivider(),
-                  PopupMenuItem<String>(
-                    padding: EdgeInsets.only(left: 16.0),
-                    value: "7",
-                    child: Text('${AppTexts.grade} 7'),
-                  ),
-                  PopupMenuDivider(),
-                  PopupMenuItem<String>(
-                    padding: EdgeInsets.only(left: 16.0),
-                    value: "8",
-                    child: Text('${AppTexts.grade} 8'),
-                  ),
-                  // PopupMenuDivider(),
-                ], //as you wish you can add more but first check 0th then do accordingly
+                itemBuilder: (context) => GradeList()
+                    .gradeList!
+                    .map(
+                      (item) => PopupMenuItem<String>(
+                        padding: const EdgeInsets.only(left: 16.0),
+                        value: item.value.toString(), //todo change
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                                '${AppTexts.grade} ${item.childName.toString()}'),
+                                const PopupMenuDivider(),
+                          ],
+                        ),
+                      ),
+                    )
+                    .toList(),
+                // const [
+                //   PopupMenuItem<String>(
+                //     padding: EdgeInsets.only(left: 16.0),
+                //     value: "0", //todo change
+                //     child: Text('${AppTexts.grade} LKG'),
+                //   ),
+                //   PopupMenuItem<String>(
+                //     padding: EdgeInsets.only(left: 16.0),
+                //     value: "1",
+                //     child: Text('${AppTexts.grade} 1'),
+                //   ),
+                //   PopupMenuDivider(),
+                //   PopupMenuItem<String>(
+                //     padding: EdgeInsets.only(left: 16.0),
+                //     value: "2",
+                //     child: Text('${AppTexts.grade} 2'),
+                //   ),
+                //   PopupMenuDivider(),
+                //   PopupMenuItem<String>(
+                //     padding: EdgeInsets.only(left: 16.0),
+                //     value: "3",
+                //     child: Text('${AppTexts.grade} 3'),
+                //   ),
+                //   PopupMenuDivider(),
+                //   PopupMenuItem<String>(
+                //     padding: EdgeInsets.only(left: 16.0),
+                //     value: "4",
+                //     child: Text('${AppTexts.grade} 4'),
+                //   ),
+                //   PopupMenuDivider(),
+                //   PopupMenuItem<String>(
+                //     padding: EdgeInsets.only(left: 16.0),
+                //     value: "5",
+                //     child: Text('${AppTexts.grade} 5'),
+                //   ),
+                //   PopupMenuDivider(),
+                //   PopupMenuItem<String>(
+                //     padding: EdgeInsets.only(left: 16.0),
+                //     value: "6",
+                //     child: Text('${AppTexts.grade} 6'),
+                //   ),
+                //   PopupMenuDivider(),
+                //   PopupMenuItem<String>(
+                //     padding: EdgeInsets.only(left: 16.0),
+                //     value: "7",
+                //     child: Text('${AppTexts.grade} 7'),
+                //   ),
+                //   PopupMenuDivider(),
+                //   PopupMenuItem<String>(
+                //     padding: EdgeInsets.only(left: 16.0),
+                //     value: "8",
+                //     child: Text('${AppTexts.grade} 8'),
+                //   ),
+                //   // PopupMenuDivider(),
+                // ], //as you wish you can add more but first check 0th then do accordingly
 
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 offset: const Offset(0, 40),
@@ -242,7 +263,8 @@ class _HomeScreenState extends State<HomeScreen> {
     grade.saveGrade(item.toString());
     setState(() {
       //NOT CHECKED
-      build(context);
+      // build(context);
+      selectedService = -1;
       queryPost = FirebaseFirestore.instance
           .collection('category')
           .orderBy('indx')
